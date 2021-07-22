@@ -1,28 +1,12 @@
 #include <stdio.h>
 
-
 struct node {
 	int value;
 	struct node * next;
 };
-void PushNList(struct node **Phead, int val) {
-	struct node * newelem = (struct node *) malloc(sizeof(struct node)); //create the new node
-	newelem->value = val; //adding value
-	newelem->next = NULL; //the end of the list
-	if (*Phead == NULL) { // the list is empty
-		*Phead = newelem; //make the head point to the new element
-	}
-	else {
-		struct node * temp = *Phead;
-		while (temp->next != NULL) //go forward untill the last element
-		{
-			temp = temp->next;
-		}
-		temp->next = newelem; //make the pointer of the last element point to the new element
-	}
-}
-int getTheSizeOfTheList(struct node *head) {
-	if (head == NULL) { //there are no elements in the list
+
+int getTheNumOfElems(struct node *head) {
+	if (head == NULL) { //there are no elements in the list 
 		return 0;
 	}
 	else {
@@ -37,7 +21,7 @@ int getTheSizeOfTheList(struct node *head) {
 }
 
 void printList(struct node *head) {
-	if (getTheSizeOfTheList(head) == 0) {
+	if (getTheNumOfElems(head) == 0) {
 		printf("Empty List!!\n");
 	}
 	else {
@@ -53,33 +37,30 @@ void printList(struct node *head) {
 void insertNPos(struct node **Phead, int pos, int val) {
 	struct node * newelem = (struct node *) malloc(sizeof(struct node)); //create the new node
 	newelem->value = val; //adding value
-
-
-	int count = 1;
 	if (pos == 0) { //insert in the first postion
-		newelem->next = *Phead; // make the new element point to the element the head used to point to
+		newelem->next = *Phead; // make the new element point to the element the head used to point to 
 		*Phead = newelem; //make the head point to the new element as the first one
 	}
 	else {
-		if (getTheSizeOfTheList(*Phead) < pos) { //ensure that the user didn't enter an invalid pos
+		if (getTheNumOfElems(*Phead) < pos) { //ensure that the user didn't enter an invalid position
 			printf("Cannot insert the value in this postion!\n");
 			return;
 		}
 		else {
 			struct node * temp = *Phead; // create a temp pointer to manipulate the list without changing the head pointer
-			for (int i = 0; i < pos-1; i++) // go forward to the element before the wanted position
+			for (int i = 0; i < pos - 1; i++) // go forward to the element before the wanted position
 			{
 				temp = temp->next;
 			}
-			newelem->next = temp->next; //make the new element
+			newelem->next = temp->next; //make the new element 
 			temp->next = newelem;
 		}
 	}
 
 }
-void deleteElemNPos(struct node ** Phead,int pos) {
+void deleteElemNPos(struct node ** Phead, int pos) {
 	struct node * temp = *Phead;
-	if (getTheSizeOfTheList(*Phead) <= pos) {
+	if (getTheNumOfElems(*Phead) <= pos) {
 		printf("No elements in this position!\n");
 	}
 	else {
@@ -88,7 +69,7 @@ void deleteElemNPos(struct node ** Phead,int pos) {
 			free(temp);
 		}
 		else {
-			for (int i = 0; i < pos-1; i++) {
+			for (int i = 0; i < pos - 1; i++) {
 				temp = temp->next;
 			}
 			struct node * temp2next = temp->next;
@@ -98,9 +79,10 @@ void deleteElemNPos(struct node ** Phead,int pos) {
 		printf("\nelement in postion %d is deleted!\n\n", pos);
 	}
 }
-void UpdateElemNPos(struct node ** Phead ,  int pos , int newValue) {
-	struct node * temp = *Phead;
-	if (getTheSizeOfTheList(*Phead) <= pos) {
+
+void UpdateElemNPos(struct node * head, int pos, int newValue) {
+	struct node * temp = head;
+	if (getTheNumOfElems(head) <= pos) {
 		printf("No elements in this position!\n");
 	}
 	else {
@@ -108,7 +90,7 @@ void UpdateElemNPos(struct node ** Phead ,  int pos , int newValue) {
 			temp->value = newValue;
 		}
 		else {
-			for (int i = 0; i < pos ; i++) {
+			for (int i = 0; i < pos; i++) {
 				temp = temp->next;
 			}
 			temp->value = newValue;
@@ -116,10 +98,11 @@ void UpdateElemNPos(struct node ** Phead ,  int pos , int newValue) {
 		printf("\nThe element in postion %d is updated!\n\n", pos);
 	}
 }
+
 int getElement(struct node * head, int pos) {
-	if (getTheSizeOfTheList(head) <= pos) {
+	if (getTheNumOfElems(head) <= pos) {
 		printf("No elements in this position!\n");
-		return -1; //used to detect an error
+		return -1; //used to detect an error 
 	}
 	else {
 		int res;
@@ -128,7 +111,7 @@ int getElement(struct node * head, int pos) {
 		}
 		else {
 			struct node * temp = head;
-			for (int i = 0; i < pos ; i++) {
+			for (int i = 0; i < pos; i++) {
 				temp = temp->next;
 			}
 			res = temp->value;
@@ -136,23 +119,24 @@ int getElement(struct node * head, int pos) {
 		return res;
 	}
 }
-void destroyList(struct node ** Phead) {
 
-	int count = getTheSizeOfTheList(*Phead);
+void destroyList(struct node ** Phead) {
+	int count = getTheNumOfElems(*Phead);
 	for (int i = 0; i < count; i++) {
 		deleteElemNPos(Phead, 0);
 	}
 }
-int main(void) {
-    struct node * head = NULL;
-	insertNPos(&head, 0, 5);
-	insertNPos(&head, 0, 8);
-	insertNPos(&head, 1, 52);
-	insertNPos(&head, 55, 7);
-	insertNPos(&head, 2, 0);
-	insertNPos(&head, 4, 11);
 
+int main() {
+
+	struct node * head = NULL;
+	insertNPos(&head, 0, 5);
+	insertNPos(&head, 1, 50);
+	insertNPos(&head, 0, 2);
+	insertNPos(&head, 3, 9);
+	insertNPos(&head, 2, 4);
+	UpdateElemNPos(head, 3, 8);
+	deleteElemNPos(&head, 4);
 	printList(head);
 	return 0;
 }
-
